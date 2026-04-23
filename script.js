@@ -5,18 +5,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('play-pause-btn');
     const musicProgress = document.getElementById('music-progress');
     const slides = document.querySelectorAll('.slide');
-    const stepBars = document.querySelectorAll('.step-bar');
     const nextArea = document.getElementById('next-area');
     const prevArea = document.getElementById('prev-area');
+    const progressStepsContainer = document.getElementById('progress-steps');
 
     let currentSlide = 0;
     let slideInterval;
     const slideDuration = 5000; // 5 segundos por slide
+    let isPlaying = false;
+
+    // Calcular tempo desde 2022
+    function calculateTimeFromStart() {
+        const startDate = new Date(2022, 0, 1); // 1º de janeiro de 2022
+        const today = new Date();
+        
+        const diffTime = Math.abs(today - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+        
+        document.getElementById('days-count').textContent = diffDays + '+';
+        document.getElementById('hours-count').textContent = diffHours.toLocaleString('pt-BR') + '+';
+        
+        // Mensagem final com tempo
+        const years = Math.floor(diffDays / 365);
+        const months = Math.floor((diffDays % 365) / 30);
+        const days = diffDays % 30;
+        
+        const timeText = `${years} anos, ${months} meses e ${days} dias de amor`;
+        document.getElementById('time-together').textContent = timeText;
+    }
+
+    // Criar barras de progresso dinamicamente
+    function createProgressBars() {
+        progressStepsContainer.innerHTML = '';
+        for (let i = 0; i < slides.length; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'step-bar';
+            if (i === 0) bar.classList.add('active');
+            progressStepsContainer.appendChild(bar);
+        }
+    }
 
     // Iniciar Experiência
     startBtn.addEventListener('click', () => {
         startOverlay.classList.add('hidden');
+        calculateTimeFromStart();
+        createProgressBars();
         bgMusic.play();
+        isPlaying = true;
         updatePlayPauseIcon(true);
         startSlideShow();
     });
@@ -25,24 +61,32 @@ document.addEventListener('DOMContentLoaded', () => {
     playPauseBtn.addEventListener('click', () => {
         if (bgMusic.paused) {
             bgMusic.play();
+            isPlaying = true;
             updatePlayPauseIcon(true);
             resumeSlideShow();
         } else {
             bgMusic.pause();
+            isPlaying = false;
             updatePlayPauseIcon(false);
             pauseSlideShow();
         }
     });
 
-    function updatePlayPauseIcon(isPlaying) {
+    function updatePlayPauseIcon(isPlayingNow) {
         const icon = playPauseBtn.querySelector('i');
-        icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        icon.className = isPlayingNow ? 'fas fa-pause' : 'fas fa-play';
     }
 
     // Atualizar Barra de Progresso da Música
     bgMusic.addEventListener('timeupdate', () => {
         const progress = (bgMusic.currentTime / bgMusic.duration) * 100;
         musicProgress.style.width = `${progress}%`;
+    });
+
+    // Quando a música terminar, reiniciar
+    bgMusic.addEventListener('ended', () => {
+        bgMusic.currentTime = 0;
+        bgMusic.play();
     });
 
     // Lógica de Slideshow
@@ -53,14 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSlide(index) {
         slides.forEach(slide => slide.classList.remove('active'));
+        const stepBars = document.querySelectorAll('.step-bar');
         stepBars.forEach((bar, i) => {
             bar.classList.remove('active', 'completed');
             if (i < index) bar.classList.add('completed');
         });
 
         slides[index].classList.add('active');
-        stepBars[index].classList.add('active');
+        if (stepBars[index]) stepBars[index].classList.add('active');
         currentSlide = index;
+
+        // Adicionar efeito de transição suave
+        addTransitionEffect();
+    }
+
+    function addTransitionEffect() {
+        const activeSlide = document.querySelector('.slide.active');
+        if (activeSlide) {
+            activeSlide.style.animation = 'none';
+            setTimeout(() => {
+                activeSlide.style.animation = 'fadeInUp 0.8s ease forwards';
+            }, 10);
+        }
     }
 
     function nextSlide() {
@@ -68,8 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showSlide(currentSlide + 1);
             resetInterval();
         } else {
-            // Reiniciar ou parar no último
-            pauseSlideShow();
+            // Voltar ao início e continuar
+            showSlide(0);
+            resetInterval();
         }
     }
 
@@ -82,7 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetInterval() {
         clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, slideDuration);
+        if (isPlaying) {
+            slideInterval = setInterval(nextSlide, slideDuration);
+        }
     }
 
     function pauseSlideShow() {
@@ -123,21 +184,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setInterval(() => {
-        if (slides[4].classList.contains('active')) {
+        const lastSlide = slides[slides.length - 1];
+        if (lastSlide && lastSlide.classList.contains('active')) {
             createHeart();
         }
     }, 300);
+
+    // Suporte a teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === ' ') {
+            e.preventDefault();
+            playPauseBtn.click();
+        }
+    });
 });
 
 // Adicionar estilo para corações flutuantes dinamicamente
 const style = document.createElement('style');
 style.innerHTML = `
     .floating-heart {
-        position: absolute;
+        position: fixed;
         bottom: -20px;
         color: #ff4d6d;
         z-index: 5;
         animation: floatUp linear forwards;
+        pointer-events: none;
     }
     @keyframes floatUp {
         to {
