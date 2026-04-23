@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = true;
         updatePlayPauseIcon(true);
         startSlideShow();
-        createConfetti();
     });
 
     // Controle de Play/Pause
@@ -88,6 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Adicionar efeito de transição suave
         addTransitionEffect();
+
+        // Se for o último slide, iniciar fogos
+        if (index === slides.length - 1) {
+            startFireworks();
+        } else {
+            stopFireworks();
+        }
     }
 
     function addTransitionEffect() {
@@ -105,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showSlide(currentSlide + 1);
             resetInterval();
         } else {
-            // Voltar ao início e continuar
             showSlide(0);
             resetInterval();
         }
@@ -145,7 +150,59 @@ document.addEventListener('DOMContentLoaded', () => {
     nextArea.addEventListener('click', nextSlide);
     prevArea.addEventListener('click', prevSlide);
 
-    // Efeito de corações flutuantes no último slide
+    // Efeito de Fogos de Artifício
+    let fireworkInterval;
+    function startFireworks() {
+        const container = document.querySelector('.fireworks-container');
+        if (!container) return;
+
+        fireworkInterval = setInterval(() => {
+            createFirework(container);
+        }, 400);
+    }
+
+    function stopFireworks() {
+        clearInterval(fireworkInterval);
+        const container = document.querySelector('.fireworks-container');
+        if (container) container.innerHTML = '';
+    }
+
+    function createFirework(container) {
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
+        
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        
+        firework.style.left = x + '%';
+        firework.style.top = y + '%';
+        firework.style.backgroundColor = color;
+        firework.style.boxShadow = `0 0 20px ${color}`;
+        
+        container.appendChild(firework);
+        
+        // Criar partículas da explosão
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.backgroundColor = color;
+            
+            const angle = (i / 20) * Math.PI * 2;
+            const velocity = 50 + Math.random() * 50;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            
+            particle.style.setProperty('--vx', vx + 'px');
+            particle.style.setProperty('--vy', vy + 'px');
+            
+            firework.appendChild(particle);
+        }
+        
+        setTimeout(() => firework.remove(), 1000);
+    }
+
+    // Efeito de Corações Flutuantes (Slide Final)
     function createHeart() {
         const heart = document.createElement('div');
         heart.classList.add('floating-heart');
@@ -153,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
         heart.style.left = Math.random() * 100 + 'vw';
         heart.style.animationDuration = Math.random() * 2 + 3 + 's';
         heart.style.opacity = Math.random();
-        heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+        heart.style.fontSize = Math.random() * 30 + 20 + 'px';
         
-        const container = document.querySelector('.floating-hearts');
+        const container = document.querySelector('.heart-explosion');
         if (container) {
             container.appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
@@ -167,22 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lastSlide && lastSlide.classList.contains('active')) {
             createHeart();
         }
-    }, 300);
-
-    // Efeito de Confete
-    function createConfetti() {
-        const confettiContainer = document.querySelector('.confetti-animation');
-        if (!confettiContainer) return;
-
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti-piece');
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.backgroundColor = Math.random() > 0.5 ? '#ff69b4' : '#ffd700';
-            confetti.style.animationDelay = Math.random() * 0.5 + 's';
-            confettiContainer.appendChild(confetti);
-        }
-    }
+    }, 200);
 
     // Suporte a teclado
     document.addEventListener('keydown', (e) => {
@@ -195,24 +237,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Adicionar estilos para corações flutuantes e confete dinamicamente
+// Adicionar estilos dinâmicos para fogos e corações
 const style = document.createElement('style');
 style.innerHTML = `
-    .floating-heart {
-        position: fixed;
-        bottom: -20px;
-        color: #ff69b4;
-        z-index: 5;
-        animation: floatUp linear forwards;
-        pointer-events: none;
+    .firework {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        animation: explode 1s ease-out forwards;
     }
-    @keyframes floatUp {
+    @keyframes explode {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(20); opacity: 0; }
+    }
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        animation: particleMove 1s ease-out forwards;
+    }
+    @keyframes particleMove {
         to {
-            transform: translateY(-100vh) rotate(360deg);
+            transform: translate(var(--vx), var(--vy));
             opacity: 0;
         }
     }
-    .floating-hearts {
+    .floating-heart {
+        position: fixed;
+        bottom: -50px;
+        color: #ff4d6d;
+        z-index: 15;
+        animation: floatUp linear forwards;
+        pointer-events: none;
+        text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+    }
+    @keyframes floatUp {
+        to {
+            transform: translateY(-110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    .heart-explosion {
         position: absolute;
         top: 0;
         left: 0;
@@ -220,19 +289,6 @@ style.innerHTML = `
         height: 100%;
         pointer-events: none;
         overflow: hidden;
-    }
-    .confetti-piece {
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        top: -10px;
-        animation: confettiFall 3s linear forwards;
-    }
-    @keyframes confettiFall {
-        to {
-            transform: translateY(100vh) rotate(720deg);
-            opacity: 0;
-        }
     }
 `;
 document.head.appendChild(style);
