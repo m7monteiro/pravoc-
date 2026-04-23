@@ -6,23 +6,41 @@
     <title>Feliz Aniversário! 🎉 21 Anos</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Overlay de Início -->
+
+    <!-- ===================== OVERLAY DE INÍCIO ===================== -->
     <div id="start-overlay" class="overlay">
+        <canvas id="particles-canvas"></canvas>
         <div class="overlay-content">
-            <div class="birthday-loader"></div>
-            <h1>Feliz Aniversário! 🎉</h1>
-            <p>21 anos de uma pessoa incrível.</p>
-            <button id="start-btn">Abrir Presente</button>
+            <div class="gift-box">
+                <div class="gift-lid"></div>
+                <div class="gift-body">
+                    <div class="gift-ribbon-h"></div>
+                    <div class="gift-ribbon-v"></div>
+                </div>
+                <div class="gift-sparkles">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <h1 class="overlay-title">Feliz Aniversário!</h1>
+            <p class="overlay-subtitle">Tem um presente especial esperando por você ✨</p>
+            <button id="start-btn">
+                <span class="btn-text">Abrir Presente</span>
+                <span class="btn-glow"></span>
+            </button>
         </div>
     </div>
 
-    <!-- Player de Música (Estilo Spotify) -->
+    <!-- ===================== PLAYER DE MÚSICA ===================== -->
     <div id="music-player" class="spotify-player">
         <div class="song-info">
-            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&h=200&auto=format&fit=crop" alt="Velha Infância - Tribalistas" id="album-art">
+            <div class="album-wrapper">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=200&h=200&auto=format&fit=crop" alt="Velha Infância" id="album-art">
+                <div class="vinyl-ring"></div>
+            </div>
             <div class="text-info">
                 <span class="song-title">Velha Infância</span>
                 <span class="artist-name">Tribalistas</span>
@@ -42,6 +60,7 @@
                 <span class="time">0:00</span>
                 <div class="progress-bar">
                     <div class="progress" id="music-progress"></div>
+                    <div class="progress-thumb"></div>
                 </div>
                 <span class="time">4:38</span>
             </div>
@@ -53,133 +72,228 @@
         </div>
     </div>
 
-    <!-- Conteúdo Principal (Stories/Slides) -->
+    <!-- ===================== CONTEÚDO PRINCIPAL ===================== -->
     <main id="main-content">
         <div class="progress-steps" id="progress-steps"></div>
 
-        <!-- Slide 1: Capa do Aniversário -->
+        <!-- SLIDE 1: GALÁXIA / CAPA -->
         <section class="slide active" id="slide-1">
-            <div class="slide-bg" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            <canvas class="slide-canvas" id="galaxy-canvas"></canvas>
+            <div class="slide-overlay-gradient galaxy-gradient"></div>
             <div class="content">
-                <span class="badge">CELEBRAÇÃO ESPECIAL</span>
-                <h2>Feliz Aniversário! 🎂</h2>
-                <p>Hoje é o seu dia. Vinte e um anos de uma pessoa extraordinária.</p>
-                <div class="confetti-animation"></div>
+                <div class="floating-badge">✨ CELEBRAÇÃO ESPECIAL ✨</div>
+                <h2 class="slide-title playfair">Feliz Aniversário!</h2>
+                <p class="slide-subtitle">Vinte e um anos de uma pessoa extraordinária que ilumina tudo ao redor.</p>
+                <div class="cake-emoji-anim">🎂</div>
             </div>
         </section>
 
-        <!-- Slide 2: 2005 - O Início -->
+        <!-- SLIDE 2: VHS / FLASHBACK 2005 -->
         <section class="slide" id="slide-2">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="vhs-bg">
+                <div class="vhs-noise"></div>
+                <div class="vhs-scanlines"></div>
+                <div class="vhs-color-bars"></div>
+                <div class="vhs-glitch-lines">
+                    <div class="glitch-line"></div>
+                    <div class="glitch-line"></div>
+                    <div class="glitch-line"></div>
+                </div>
+            </div>
+            <div class="vhs-overlay-dark"></div>
             <div class="content flashback">
-                <span class="year-badge">2005</span>
-                <h2>Nasceu Uma Estrela</h2>
-                <p class="flashback-text">24 de abril de 2005. O mundo ganhou uma pessoa incrível.</p>
-                <div class="star-icon">⭐</div>
+                <div class="vhs-label">▶ REC &nbsp;&nbsp; 00:00:00</div>
+                <span class="year-badge glitch-text" data-text="2005">2005</span>
+                <h2 class="slide-title playfair">Nasceu Uma Estrela</h2>
+                <p class="slide-subtitle flashback-text">24 de abril de 2005. O mundo ganhou uma pessoa incrível — e nunca mais foi o mesmo.</p>
+                <div class="star-burst">⭐</div>
             </div>
         </section>
 
-        <!-- Slide 3: Galeria de Fotos Dela -->
+        <!-- SLIDE 3: AURORA BOREAL / FOTOS DELA -->
         <section class="slide" id="slide-3">
-            <div class="slide-bg" style="background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+            <canvas class="slide-canvas" id="aurora-canvas"></canvas>
+            <div class="slide-overlay-gradient aurora-gradient"></div>
             <div class="content">
-                <h2>Sua Beleza Única</h2>
-                <div class="photo-grid">
-                    <div class="photo-item" style="--d: 0s"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto Dela 1"></div>
-                    <div class="photo-item" style="--d: 0.2s"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto Dela 2"></div>
-                    <div class="photo-item" style="--d: 0.4s"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto Dela 3"></div>
+                <h2 class="slide-title playfair">Sua Beleza Única</h2>
+                <div class="photo-grid aurora-grid">
+                    <div class="photo-item" style="--d: 0s">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto 1">
+                        <div class="photo-shine"></div>
+                    </div>
+                    <div class="photo-item" style="--d: 0.2s">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto 2">
+                        <div class="photo-shine"></div>
+                    </div>
+                    <div class="photo-item" style="--d: 0.4s">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&h=300&auto=format&fit=crop" alt="Foto 3">
+                        <div class="photo-shine"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 4: Galeria de Fotos Juntos -->
+        <!-- SLIDE 4: BOLHAS DE LUZ / FOTOS JUNTOS -->
         <section class="slide" id="slide-4">
-            <div class="slide-bg" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            <canvas class="slide-canvas" id="bubbles-canvas"></canvas>
+            <div class="slide-overlay-gradient bubbles-gradient"></div>
             <div class="content">
-                <h2>Nossos Melhores Momentos</h2>
-                <div class="photo-stack">
-                    <div class="photo-card" style="--r: -5deg"><img src="https://images.unsplash.com/photo-1516589174184-c685266d430c?q=80&w=300&h=400&auto=format&fit=crop" alt="Nós 1"></div>
-                    <div class="photo-card" style="--r: 3deg"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=300&h=400&auto=format&fit=crop" alt="Nós 2"></div>
-                    <div class="photo-card" style="--r: -2deg"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&h=400&auto=format&fit=crop" alt="Nós 3"></div>
+                <h2 class="slide-title playfair">Nossos Melhores Momentos</h2>
+                <div class="photo-stack polaroid-stack">
+                    <div class="photo-card polaroid" style="--r: -6deg; --tx: -20px">
+                        <img src="https://images.unsplash.com/photo-1516589174184-c685266d430c?q=80&w=300&h=300&auto=format&fit=crop" alt="Nós 1">
+                        <span class="polaroid-caption">Sempre juntos 💕</span>
+                    </div>
+                    <div class="photo-card polaroid" style="--r: 4deg; --tx: 0px">
+                        <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=300&h=300&auto=format&fit=crop" alt="Nós 2">
+                        <span class="polaroid-caption">Momentos únicos ✨</span>
+                    </div>
+                    <div class="photo-card polaroid" style="--r: -2deg; --tx: 20px">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&h=300&auto=format&fit=crop" alt="Nós 3">
+                        <span class="polaroid-caption">Para sempre 🌟</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 5: Estatísticas Especiais -->
+        <!-- SLIDE 5: CYBERPUNK / ESTATÍSTICAS -->
         <section class="slide" id="slide-5">
-            <div class="slide-bg" style="background-image: linear-gradient(45deg, #1db954, #191414);"></div>
-            <div class="content stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">21</span>
-                    <span class="stat-label">Anos de Vida</span>
+            <div class="cyber-bg">
+                <canvas class="slide-canvas" id="grid-canvas"></canvas>
+                <div class="cyber-lines">
+                    <div class="cyber-line h"></div>
+                    <div class="cyber-line h" style="top:30%"></div>
+                    <div class="cyber-line h" style="top:60%"></div>
+                    <div class="cyber-line h" style="top:90%"></div>
+                    <div class="cyber-line v"></div>
+                    <div class="cyber-line v" style="left:25%"></div>
+                    <div class="cyber-line v" style="left:50%"></div>
+                    <div class="cyber-line v" style="left:75%"></div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">7.665</span>
-                    <span class="stat-label">Dias Vividos</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Potencial Infinito</span>
+            </div>
+            <div class="slide-overlay-gradient cyber-gradient"></div>
+            <div class="content">
+                <div class="cyber-title-tag">&lt; DADOS DA PESSOA MAIS INCRÍVEL /&gt;</div>
+                <div class="stats-grid cyber-stats">
+                    <div class="stat-item cyber-card">
+                        <div class="stat-icon">🎂</div>
+                        <span class="stat-number counter" data-target="21">0</span>
+                        <span class="stat-label">Anos de Vida</span>
+                        <div class="cyber-border"></div>
+                    </div>
+                    <div class="stat-item cyber-card">
+                        <div class="stat-icon">📅</div>
+                        <span class="stat-number counter" data-target="7665">0</span>
+                        <span class="stat-label">Dias Vividos</span>
+                        <div class="cyber-border"></div>
+                    </div>
+                    <div class="stat-item cyber-card">
+                        <div class="stat-icon">💫</div>
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Potencial Infinito</span>
+                        <div class="cyber-border"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 6: Qualidades -->
+        <!-- SLIDE 6: ONDAS DE LUZ / QUALIDADES -->
         <section class="slide" id="slide-6">
-            <div class="slide-bg" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            <canvas class="slide-canvas" id="waves-canvas"></canvas>
+            <div class="slide-overlay-gradient waves-gradient"></div>
             <div class="content">
-                <h2>Você É...</h2>
-                <ul class="qualities-list">
-                    <li><i class="fas fa-heart"></i> <span>Incrível</span></li>
-                    <li><i class="fas fa-star"></i> <span>Extraordinária</span></li>
-                    <li><i class="fas fa-fire"></i> <span>Inspiradora</span></li>
-                    <li><i class="fas fa-crown"></i> <span>Rainha</span></li>
+                <h2 class="slide-title playfair dancing">Você É...</h2>
+                <ul class="qualities-list neon-list">
+                    <li style="--delay: 0s">
+                        <div class="quality-icon-wrap"><i class="fas fa-heart"></i></div>
+                        <span>Incrível</span>
+                        <div class="quality-line"></div>
+                    </li>
+                    <li style="--delay: 0.15s">
+                        <div class="quality-icon-wrap"><i class="fas fa-star"></i></div>
+                        <span>Extraordinária</span>
+                        <div class="quality-line"></div>
+                    </li>
+                    <li style="--delay: 0.3s">
+                        <div class="quality-icon-wrap"><i class="fas fa-fire"></i></div>
+                        <span>Inspiradora</span>
+                        <div class="quality-line"></div>
+                    </li>
+                    <li style="--delay: 0.45s">
+                        <div class="quality-icon-wrap"><i class="fas fa-crown"></i></div>
+                        <span>Rainha</span>
+                        <div class="quality-line"></div>
+                    </li>
                 </ul>
             </div>
         </section>
 
-        <!-- Slide 7: Hoje - Seus 21 Anos -->
+        <!-- SLIDE 7: CONFETES 3D / 21 ANOS -->
         <section class="slide" id="slide-7">
-            <div class="slide-bg" style="background-image: linear-gradient(to right, #f093fb 0%, #f5576c 100%);"></div>
+            <canvas class="slide-canvas" id="confetti-canvas"></canvas>
+            <div class="slide-overlay-gradient confetti-gradient"></div>
             <div class="content">
-                <h2>Hoje Você Completa 21 Anos! 🎉</h2>
-                <p>Você é inteligente, bonita, forte e capaz de conquistar qualquer coisa que se proponha.</p>
-                <div class="age-display">
-                    <span class="big-number">21</span>
+                <div class="age-ring-container">
+                    <svg class="age-ring" viewBox="0 0 200 200">
+                        <circle class="ring-bg" cx="100" cy="100" r="85"/>
+                        <circle class="ring-fill" cx="100" cy="100" r="85"/>
+                    </svg>
+                    <div class="age-inner">
+                        <span class="big-number">21</span>
+                        <span class="age-label">anos</span>
+                    </div>
+                </div>
+                <h2 class="slide-title playfair" style="margin-top:20px">Hoje Você Completa 21 Anos!</h2>
+                <p class="slide-subtitle">Inteligente, bonita, forte e capaz de conquistar qualquer coisa.</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: PÉTALAS / MENSAGEM ESPECIAL -->
+        <section class="slide" id="slide-8">
+            <canvas class="slide-canvas" id="petals-canvas"></canvas>
+            <div class="slide-overlay-gradient petals-gradient"></div>
+            <div class="content">
+                <div class="quote-container glass-card">
+                    <div class="quote-open">"</div>
+                    <h2 class="slide-title playfair quote-title">Você Merece o Mundo</h2>
+                    <p class="slide-subtitle quote-text">E muito mais. Que este ano seja cheio de alegria, sucesso e momentos inesquecíveis que ficarão para sempre no coração.</p>
+                    <div class="quote-close">"</div>
+                    <div class="quote-author">— Com todo amor 💕</div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 8: Mensagem Especial -->
-        <section class="slide" id="slide-8">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1000&auto=format&fit=crop');"></div>
-            <div class="content">
-                <h2>Você Merece o Mundo</h2>
-                <p>E muito mais. Que este ano seja cheio de alegria, sucesso e momentos inesquecíveis.</p>
-                <div class="quote-mark">"</div>
-            </div>
-        </section>
-
-        <!-- Slide 9: Final Épico - TE AMO -->
+        <!-- SLIDE 9: FOGOS ÉPICOS / TE AMO -->
         <section class="slide" id="slide-9">
-            <div class="slide-bg" style="background-image: radial-gradient(circle, #000000, #1a1a1a);"></div>
+            <canvas class="slide-canvas" id="fireworks-canvas"></canvas>
+            <div class="slide-overlay-gradient final-gradient"></div>
             <div class="content epic-final">
-                <div class="fireworks-container"></div>
-                <h1 class="giant-text">TE AMO</h1>
                 <div class="heart-explosion"></div>
-                <p class="final-subtext">Para sempre e além.</p>
-                <button class="share-btn"><i class="fab fa-whatsapp"></i> Compartilhar</button>
+                <p class="final-pre">Para sempre e além</p>
+                <h1 class="giant-text" id="giant-te-amo">
+                    <span class="te">TE</span>
+                    <span class="amo">AMO</span>
+                </h1>
+                <div class="heart-row">
+                    <span>❤️</span><span>💕</span><span>❤️</span><span>💕</span><span>❤️</span>
+                </div>
+                <button class="share-btn">
+                    <i class="fab fa-whatsapp"></i> Compartilhar
+                </button>
             </div>
         </section>
 
         <!-- Navegação -->
         <div class="nav-controls">
-            <div class="nav-area left" id="prev-area"></div>
-            <div class="nav-area right" id="next-area"></div>
+            <div class="nav-area left" id="prev-area">
+                <div class="nav-hint left-hint"><i class="fas fa-chevron-left"></i></div>
+            </div>
+            <div class="nav-area right" id="next-area">
+                <div class="nav-hint right-hint"><i class="fas fa-chevron-right"></i></div>
+            </div>
         </div>
     </main>
 
-    <!-- Áudio com Velha Infância dos Tribalistas -->
     <audio id="bg-music" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
