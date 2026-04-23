@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Retrospectiva ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Overlay de Início -->
+    <div id="start-overlay" class="overlay">
+        <div class="overlay-content">
+            <div class="heart-loader"></div>
+            <h1>Nossa História em Música</h1>
+            <p>Prepare os fones de ouvido e o coração.</p>
+            <button id="start-btn">Abrir Presente</button>
+        </div>
+    </div>
+
+    <!-- Player de Música (Estilo Spotify) -->
+    <div id="music-player" class="spotify-player">
+        <div class="song-info">
+            <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=200&h=200&auto=format&fit=crop" alt="Capa do Álbum" id="album-art">
+            <div class="text-info">
+                <span class="song-title">Nossa Música Favorita</span>
+                <span class="artist-name">Nós Dois</span>
+            </div>
+        </div>
+        <div class="player-controls">
+            <div class="buttons">
+                <i class="fas fa-shuffle"></i>
+                <i class="fas fa-backward-step"></i>
+                <div class="play-pause" id="play-pause-btn">
+                    <i class="fas fa-play"></i>
+                </div>
+                <i class="fas fa-forward-step"></i>
+                <i class="fas fa-repeat"></i>
+            </div>
+            <div class="progress-container">
+                <span class="time">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress" id="music-progress"></div>
+                </div>
+                <span class="time">3:45</span>
+            </div>
+        </div>
+        <div class="extra-controls">
+            <i class="fas fa-microphone"></i>
+            <i class="fas fa-list"></i>
+            <i class="fas fa-volume-high"></i>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal (Stories/Slides) -->
+    <main id="main-content">
+        <div class="progress-steps">
+            <div class="step-bar active"></div>
+            <div class="step-bar"></div>
+            <div class="step-bar"></div>
+            <div class="step-bar"></div>
+            <div class="step-bar"></div>
+        </div>
+
+        <!-- Slide 1: Introdução -->
+        <section class="slide active" id="slide-1">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1511733849463-24276da19f4a?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="content">
+                <span class="badge">RETROSPECTIVA 2024</span>
+                <h2>Tudo começou com um "Oi"...</h2>
+                <p>E desde então, minha vida nunca mais foi a mesma. Você é a melhor parte do meu dia.</p>
+            </div>
+        </section>
+
+        <!-- Slide 2: Estatísticas (Estilo Spotify Wrapped) -->
+        <section class="slide" id="slide-2">
+            <div class="slide-bg" style="background-image: linear-gradient(45deg, #1db954, #191414);"></div>
+            <div class="content stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">365</span>
+                    <span class="stat-label">Dias de puro amor</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">8.760</span>
+                    <span class="stat-label">Horas pensando em você</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Planos para o futuro</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Momentos -->
+        <section class="slide" id="slide-3">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="content">
+                <h2>Nossos Melhores Momentos</h2>
+                <div class="photo-stack">
+                    <div class="photo-card" style="--r: -5deg"><img src="https://images.unsplash.com/photo-1516589174184-c685266d430c?q=80&w=300&h=400&auto=format&fit=crop" alt="Foto 1"></div>
+                    <div class="photo-card" style="--r: 3deg"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=300&h=400&auto=format&fit=crop" alt="Foto 2"></div>
+                    <div class="photo-card" style="--r: -2deg"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&h=400&auto=format&fit=crop" alt="Foto 3"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Playlist do Coração -->
+        <section class="slide" id="slide-4">
+            <div class="slide-bg" style="background-image: linear-gradient(to bottom, #8e2de2, #4a00e0);"></div>
+            <div class="content">
+                <h2>Sua Playlist Favorita</h2>
+                <ul class="playlist-list">
+                    <li><span class="num">1</span> <div class="song"><strong>Seu Sorriso</strong><span>O Som que eu mais amo</span></div> <i class="fas fa-heart"></i></li>
+                    <li><span class="num">2</span> <div class="song"><strong>Seu Abraço</strong><span>Meu lugar seguro</span></div> <i class="fas fa-heart"></i></li>
+                    <li><span class="num">3</span> <div class="song"><strong>Nossa História</strong><span>O melhor álbum de todos</span></div> <i class="fas fa-heart"></i></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Slide 5: Final -->
+        <section class="slide" id="slide-5">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="content final-message">
+                <div class="floating-hearts"></div>
+                <h2>Eu Te Amo! ❤️</h2>
+                <p>Obrigado por ser minha parceira, minha melhor amiga e o amor da minha vida.</p>
+                <button class="share-btn"><i class="fab fa-whatsapp"></i> Enviar um Beijo</button>
+            </div>
+        </section>
+
+        <!-- Navegação -->
+        <div class="nav-controls">
+            <div class="nav-area left" id="prev-area"></div>
+            <div class="nav-area right" id="next-area"></div>
+        </div>
+    </main>
+
+    <!-- Áudio Oculto -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
