@@ -14,27 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const slideDuration = 5000; // 5 segundos por slide
     let isPlaying = false;
 
-    // Calcular tempo desde 2022
-    function calculateTimeFromStart() {
-        const startDate = new Date(2022, 0, 1); // 1º de janeiro de 2022
-        const today = new Date();
-        
-        const diffTime = Math.abs(today - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
-        
-        document.getElementById('days-count').textContent = diffDays + '+';
-        document.getElementById('hours-count').textContent = diffHours.toLocaleString('pt-BR') + '+';
-        
-        // Mensagem final com tempo
-        const years = Math.floor(diffDays / 365);
-        const months = Math.floor((diffDays % 365) / 30);
-        const days = diffDays % 30;
-        
-        const timeText = `${years} anos, ${months} meses e ${days} dias de amor`;
-        document.getElementById('time-together').textContent = timeText;
-    }
-
     // Criar barras de progresso dinamicamente
     function createProgressBars() {
         progressStepsContainer.innerHTML = '';
@@ -49,12 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar Experiência
     startBtn.addEventListener('click', () => {
         startOverlay.classList.add('hidden');
-        calculateTimeFromStart();
         createProgressBars();
         bgMusic.play();
         isPlaying = true;
         updatePlayPauseIcon(true);
         startSlideShow();
+        createConfetti();
     });
 
     // Controle de Play/Pause
@@ -190,6 +169,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 300);
 
+    // Efeito de Confete
+    function createConfetti() {
+        const confettiContainer = document.querySelector('.confetti-animation');
+        if (!confettiContainer) return;
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti-piece');
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.backgroundColor = Math.random() > 0.5 ? '#ff69b4' : '#ffd700';
+            confetti.style.animationDelay = Math.random() * 0.5 + 's';
+            confettiContainer.appendChild(confetti);
+        }
+    }
+
     // Suporte a teclado
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') nextSlide();
@@ -201,13 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Adicionar estilo para corações flutuantes dinamicamente
+// Adicionar estilos para corações flutuantes e confete dinamicamente
 const style = document.createElement('style');
 style.innerHTML = `
     .floating-heart {
         position: fixed;
         bottom: -20px;
-        color: #ff4d6d;
+        color: #ff69b4;
         z-index: 5;
         animation: floatUp linear forwards;
         pointer-events: none;
@@ -226,6 +220,19 @@ style.innerHTML = `
         height: 100%;
         pointer-events: none;
         overflow: hidden;
+    }
+    .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: -10px;
+        animation: confettiFall 3s linear forwards;
+    }
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
     }
 `;
 document.head.appendChild(style);
